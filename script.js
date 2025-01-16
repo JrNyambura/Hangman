@@ -20,6 +20,7 @@ let selectedWord = words[Math.floor(Math.random() * words.length)];
 
 const correctLetters = [];
 const wrongLetters = [];
+let isGameOver = false; // Flag to track game state
 
 function displayWord() {
     wordEl.innerHTML = `
@@ -35,6 +36,7 @@ const innerWord = wordEl.innerText.replace(/\n/g, '');
 if (innerWord === selectedWord) {
     finalMessage.innerText = 'Congrats! You have won 😀';
     popup.style.display = 'flex';
+    isGameOver = true; // Mark game as over
 }
 }
 
@@ -61,6 +63,7 @@ function updateWrongLettersEl() {
     if(wrongLetters.length === figureParts.length) {
         finalMessage.innerText = 'Unfortunately, You Lost... 😒';
         popup.style.display = 'flex';
+        isGameOver = true; // Mark game as over
     }
 } 
 
@@ -74,6 +77,9 @@ function showNotification() {
 //Keydown Letter press
 
 window.addEventListener('keydown', e => {
+
+    if (isGameOver) return; // Prevent input if the game is over
+
     if(e.keyCode >= 65 && e.keyCode <=90) {
         const letter = e.key;
 
@@ -102,6 +108,7 @@ playAgainBtn.addEventListener('click', () => {
     //empty the arrays
     correctLetters.splice(0);
     wrongLetters.splice(0);
+    isGameOver = false; // Reset game over flag
 
     selectedWord = words[Math.floor(Math.random() * words.length)];
 
